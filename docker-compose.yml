@@ -1,0 +1,37 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"  # Adjust as necessary
+    depends_on:
+      - db
+    networks:
+      - rusteze-network
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: rustuser
+      POSTGRES_PASSWORD: rustpassword
+      POSTGRES_DB: rustdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  docs:
+    image: docusaurus/docusaurus
+    volumes:
+      - ./docusaurus:/docusaurus
+    ports:
+      - "3000:3000"
+    networks:
+      - rusteze-network
+
+
+volumes:
+  pgdata:
+
+networks:
+  rusteze-network:
+    driver: bridge
