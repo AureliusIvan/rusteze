@@ -10,6 +10,6 @@ COPY . .
 RUN cargo build --release
 
 # Expose the web server port
-EXPOSE 8000
+EXPOSE 3000
 
 CMD ["cargo", "run", "--release"]

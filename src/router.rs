@@ -5,7 +5,8 @@ use crate::controllers::example_controller;
 
 pub fn create_routes() -> impl Filter<Extract=impl warp::Reply, Error=warp::Rejection> + Clone {
     // Define individual routes
-    let example_route = warp::path("example")
+    // warp::path("example") creates a filter that matches the path "/example"
+    let example_route = warp::path::end()
         .and(warp::get())
         .and_then(example_controller::handle_example);
 

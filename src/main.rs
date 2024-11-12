@@ -9,6 +9,7 @@ mod router;
 mod error;
 // Add the router module
 
+
 #[tokio::main]
 async fn main() {
     // Initialize tracing/logging subscriber
