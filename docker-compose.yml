@@ -1,37 +1,98 @@
 services:
-  app:
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    volumes:
+      - /usr/src/app/node_modules
+      - ./frontend:/usr/src/app
+    tty: true
+    ports:
+      - "3000:3000"
+    networks:
+      - frontend-network
+      - rusteze-network
+    environment:
+      - API_URL=${API_URL:-https://backend:8000}
+      - NODE_ENV=${NODE_ENV:-development}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  backend:
     build:
       context: backend
-      dockerfile: backend/Dockerfile
-    volumes:
-      - .:/usr/src/app
+      dockerfile: Dockerfile
+    tty: true
+    #    volumes:
+    #      - .:/usr/src/app
     ports:
-      - "8000:8000"  # Adjust as necessary
+      - "8000:8000"
     depends_on:
       - db
     networks:
+      - backend-network
       - rusteze-network
+    environment:
+      - DATABASE_URL=postgres://rustuser:${DB_PASSWORD:-secret}@db:5432/rustdb  # Password from environment
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8000/health || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: "syslog"
+      options:
+        tag: "backend"
+
   db:
     image: postgres:latest
     environment:
       POSTGRES_USER: rustuser
-      POSTGRES_PASSWORD: rustpassword
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}  # Database password from environment
       POSTGRES_DB: rustdb
     volumes:
       - pgdata:/var/lib/postgresql/data
-  docs:
-    image: docusaurus/docusaurus
-    volumes:
-      - ./docusaurus:/docusaurus
-    ports:
-      - "3000:3000"
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
     networks:
+      - db-network
       - rusteze-network
-
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U rustuser" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
 
 volumes:
   pgdata:
+  frontend_node_modules:
+  next:
+  backend_venv:
 
 networks:
   rusteze-network:
+    driver: bridge
+  frontend-network:
+    driver: bridge
+  backend-network:
+    driver: bridge
+  db-network:
     driver: bridge
