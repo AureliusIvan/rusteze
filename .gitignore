@@ -1,8 +1,5 @@
-/target
+# IDE
+.idea
 
-# environment file
+# Environment
 .env
-.env.local
-.vercel
-.shuttle*
-Secrets*.toml

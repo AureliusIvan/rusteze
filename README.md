@@ -1,3 +1,3 @@
 # RUSTEZE
 
-just like laravel but for rust
+just like threads.net but with rust

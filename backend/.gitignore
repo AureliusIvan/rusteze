@@ -1,0 +1,12 @@
+/target
+
+# environment file
+../.env
+.env.local
+.vercel
+.shuttle*
+Secrets*.toml
+
+# IDE files
+.idea
+frontend/node_modules

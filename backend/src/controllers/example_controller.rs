@@ -23,3 +23,29 @@ pub async fn handle_example() -> Result<impl Reply, warp::Rejection> {
 
     Ok(reply::html(rendered))
 }
+
+// Unit Test Section
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use warp::Reply;
+
+    #[tokio::test]
+    async fn test_handle_example() {
+        // Call the function and unwrap the result
+        let response = handle_example().await.unwrap();
+
+        // Convert the response into an HTML string
+        let body = response.into_response().into_body();
+
+        // Collect the body data into a string
+        let bytes = hyper::body::to_bytes(body).await.unwrap();
+        let body_string = String::from_utf8(bytes.to_vec()).unwrap();
+
+        // Assert that the response contains certain expected values
+        assert!(body_string.contains("Hello, World!"));
+        assert!(body_string.contains("My Custom Page Title"));
+        assert!(body_string.contains("Welcome to My Project"));
+        assert!(body_string.contains("An Amazing Project with Rust and Tailwind CSS"));
+    }
+}
