@@ -1,0 +1,61 @@
+<!-- src/views/templates/example.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Rusteze</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- Header Section -->
+<header class="bg-blue-600 p-4 text-white">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold">Welcome to Rusteze</h1>
+        <p class="text-lg">A Rust MVC Project Template with Tailwind CSS</p>
+    </div>
+</header>
+
+<!-- Main Content Section -->
+<main class="container mx-auto p-6">
+    <section class="bg-white shadow-md rounded-lg p-6 mt-6">
+        <h2 class="text-2xl font-semibold mb-4">{{ message }}</h2>
+        <p class="text-gray-600">Status: {{ status }}</p>
+        <p class="mt-4">Explore the features and functionality of this project. Enjoy building with Rust and
+            Tailwind!</p>
+    </section>
+
+    <!-- Additional Sections (e.g., Features) -->
+    <section class="mt-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Feature 1 -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-blue-600">Feature One</h3>
+                <p class="text-gray-600 mt-2">Detailed description of feature one.</p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-blue-600">Feature Two</h3>
+                <p class="text-gray-600 mt-2">Detailed description of feature two.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-blue-600">Feature Three</h3>
+                <p class="text-gray-600 mt-2">Detailed description of feature three.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer Section -->
+<footer class="bg-blue-600 text-white p-4 mt-12">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2024 Rusteze Project. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

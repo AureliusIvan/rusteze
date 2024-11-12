@@ -1,1 +1,6 @@
 /target
+
+# environment file
+.env
+.env.local
+.vercel
